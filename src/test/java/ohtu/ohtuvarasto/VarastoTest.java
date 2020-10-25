@@ -65,4 +65,73 @@ public class VarastoTest {
         assertEquals(4, varasto.paljonkoMahtuu(), vertailuTarkkuus);
     }
 
+    @Test
+    public void lisaysEiYlitaKapasiteettia() {
+        varasto.lisaaVarastoon(10);
+        varasto.lisaaVarastoon(2);
+
+        // varastossa pitaisi olla saldo 10.
+        assertEquals(10, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void eiVoiOttaaMaaraansaEnempaa() {
+        varasto.lisaaVarastoon(2);
+        double saatuMaara = varasto.otaVarastosta(4);
+
+        assertEquals(2, saatuMaara, vertailuTarkkuus);
+    }
+
+    @Test
+    public void negatiivisenMaaranLisaaminen() {
+        varasto.lisaaVarastoon(-2);
+
+        assertEquals(0, varasto.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void negatiivisenMaaranOttaminen() {
+        varasto.lisaaVarastoon(2);
+        double saatuMaara = varasto.otaVarastosta(-2);
+
+        assertEquals(0, saatuMaara, vertailuTarkkuus);
+    }
+
+    @Test
+    public void virheellinenKonstruktori1() {
+        Varasto v = new Varasto(0);
+        assertEquals(0, v.getTilavuus(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void virheellinenKonstruktori2() {
+        Varasto v = new Varasto(-2);
+        assertEquals(0, v.getTilavuus(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void virheellinenKonstruktori3() {
+        Varasto v = new Varasto(-2, 0);
+        assertEquals(0, v.getTilavuus(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void virheellinenKonstruktori4() {
+        Varasto v = new Varasto(2, -1);
+        assertEquals(0, v.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void alkuSaldoOikein() {
+        Varasto v = new Varasto(2, 1);
+        assertEquals(1, v.getSaldo(), vertailuTarkkuus);
+    }
+
+    @Test
+    public void toStringOnOikein() {
+        String saatu = varasto.toString();
+        String odotettu = "saldo = " + varasto.getSaldo() + ", vielä tilaa " + varasto.paljonkoMahtuu();
+        assertEquals(odotettu, saatu);
+    }
+
 }

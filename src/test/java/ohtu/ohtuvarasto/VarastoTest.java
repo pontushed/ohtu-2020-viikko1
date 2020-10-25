@@ -124,7 +124,7 @@ public class VarastoTest {
     @Test
     public void alkuSaldoOikein() {
         Varasto v = new Varasto(2, 1);
-        assertEquals(1, v.getSaldo(), vertailuTarkkuus);
+        assertEquals(2, v.getSaldo(), vertailuTarkkuus);
     }
 
     @Test
